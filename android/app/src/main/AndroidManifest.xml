@@ -1,0 +1,14 @@
+
+<!-- 
+  NOTA: Este arquivo é gerado automaticamente pelo Capacitor dentro da pasta /android.
+  Você não precisa criar este arquivo manualmente na raiz do projeto React.
+  
+  Quando você rodar 'npx cap add android', o Android Studio criará este arquivo.
+  Certifique-se de adicionar estas permissões no AndroidManifest.xml gerado:
+
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+  <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+-->
