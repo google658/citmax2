@@ -8,22 +8,26 @@ interface BrandLogoProps {
 }
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({ variant, className = "h-10" }) => {
-  const { config } = useAdmin();
-
-  // Lógica Simplificada:
-  // 1. Se tiver uma URL customizada (http/https/data) configurada no painel admin, usa ela.
-  // 2. Caso contrário, usa DIRETAMENTE os arquivos PNG da raiz.
+  let configLogoUrl: string | undefined;
   
-  const isCustomConfig = config.logoUrl && (
-      config.logoUrl.startsWith('http') || 
-      config.logoUrl.startsWith('data:') || 
-      config.logoUrl.startsWith('blob:')
+  try {
+      const admin = useAdmin();
+      if (admin && admin.config) {
+          configLogoUrl = admin.config.logoUrl;
+      }
+  } catch (e) {
+      // Fallback silencioso se o contexto falhar
+  }
+
+  // Lógica de URL
+  const isCustomConfig = configLogoUrl && (
+      configLogoUrl.startsWith('http') || 
+      configLogoUrl.startsWith('data:') || 
+      configLogoUrl.startsWith('blob:')
   );
 
-  // Adicionamos um timestamp (Date.now) apenas se você precisar forçar a limpeza de cache,
-  // mas por padrão vamos usar o caminho limpo ./logo.png
   const src = isCustomConfig 
-      ? config.logoUrl 
+      ? configLogoUrl!
       : (variant === 'white' ? './logo-white.png' : './logo.png');
 
   return (
@@ -31,7 +35,10 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ variant, className = "h-10
       src={src} 
       alt="CITmax Logo" 
       className={`${className} w-auto object-contain select-none`}
-      // Removemos o onError que tentava carregar SVG
+      onError={(e) => {
+         // Se a imagem falhar (404), apenas diminui a opacidade mas não quebra
+         (e.target as HTMLImageElement).style.opacity = "0.5"; 
+      }}
     />
   );
 };

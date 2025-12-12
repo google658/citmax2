@@ -17,10 +17,11 @@ import { WifiManager } from './components/WifiManager';
 import { ServiceRequests } from './components/ServiceRequests';
 import { AdminLogin } from './components/AdminLogin';
 import { AdminPanel } from './components/AdminPanel';
-import { PartnerPortal } from './components/PartnerPortal'; // New Partner Portal
+import { PartnerPortal } from './components/PartnerPortal';
 import { CarMode } from './components/CarMode';
 import { BenefitsClub } from './components/BenefitsClub';
 import { InstallPrompt } from './components/InstallPrompt';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { AppView, SGPContract, UserSession, SGPInvoice } from './types';
 import { APIService } from './services/apiService';
 
@@ -271,13 +272,15 @@ function AppContent() {
 
 function App() {
   return (
-    <AdminProvider>
-      <ToastProvider>
-        <ThemeProvider>
-          <AppContent />
-        </ThemeProvider>
-      </ToastProvider>
-    </AdminProvider>
+    <ErrorBoundary>
+      <AdminProvider>
+        <ToastProvider>
+          <ThemeProvider>
+            <AppContent />
+          </ThemeProvider>
+        </ToastProvider>
+      </AdminProvider>
+    </ErrorBoundary>
   );
 }
 
